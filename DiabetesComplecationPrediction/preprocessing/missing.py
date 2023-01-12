@@ -57,13 +57,13 @@ class DropNaN(TransformerMixin):
 class Del_Feature:
 
     def missing_rate(self,df):
-        """Compute the missing rate of each feature in a pandas DataFrame
+        """Compute the missing rate of each feature in a pandas DataFrame.
 
         Args:
-            df (pandas DataFrame): DataFrame containing the features to check
+            df (pandas DataFrame): DataFrame containing the features to check.
 
         Returns:
-            pandas DataFrame:  A DataFrame containing the missing rate of each feature
+            pandas DataFrame:  A DataFrame containing the missing rate of each feature.
         """
         df_na = (df.isnull().sum()/len(df))*100
         df_na = df_na.drop(df_na[df_na == 0].index).sort_values(ascending=False)        
@@ -72,10 +72,10 @@ class Del_Feature:
         return missing_df
 
     def missing_rate_hist(self,df):
-        """Draw the histogram of missing rate for each feature in a pandas DataFrame
+        """Plot the histogram of missing rate for each feature in a pandas DataFrame.
 
         Args:
-            df (pandas DataFrame): DataFrame containing the features to check
+            df (pandas DataFrame): DataFrame containing the features to check.
         """
         df_na = (df.isnull().sum()/len(df))*100
         df_na = df_na.drop(df_na[df_na == 0].index).sort_values(ascending=False)
