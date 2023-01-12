@@ -1,23 +1,23 @@
 # DiabetesComplecationPrediction
 DiabetesComplecationPrediction is a package providing analysis framework for diabetes complecation predictions.
 ## Directory structure
-📦DiabetesComplecationPrediction
- ├─ 📂datasets
- │ ├─ 📂data
- │ │ ├─ 📜hw_Cardiovascular.csv
- │ │ └─ 📜hw_Nephropathy.csv
- │ ├─ 📜base.py
- │ └─ 📜__init__.py
- ├─ 📂preprocessing
- │ ├─ 📜correlation.py
- │ ├─ 📜load.py
- │ ├─ 📜missing.py
- │ ├─ 📜skew.py
- │ └─ 📜__init__.py
- ├─ 📜error.py
- ├─ 📜requirements.txt
- ├─ 📜setup.py
- └─ 📜__init__.py
+📦DiabetesComplecationPrediction   
+ ├─ 📂datasets   
+ │ ├─ 📂data   
+ │ │ ├─ 📜hw_Cardiovascular.csv   
+ │ │ └─ 📜hw_Nephropathy.csv   
+ │ ├─ 📜base.py   
+ │ └─ 📜__init__.py   
+ ├─ 📂preprocessing   
+ │ ├─ 📜correlation.py   
+ │ ├─ 📜load.py   
+ │ ├─ 📜missing.py   
+ │ ├─ 📜skew.py   
+ │ └─ 📜__init__.py   
+ ├─ 📜error.py   
+ ├─ 📜requirements.txt   
+ ├─ 📜setup.py   
+ └─ 📜__init__.py   
 
 ## Description and Features
 - Data loading
@@ -53,6 +53,6 @@ from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_im
 | knn_impute         | Fills missing values with nearest neighbours.       |
 | rf_impute          | Fills missing values with random forest regressor.  |
 ## References
-Cardea/core.py at cdb79cb0bdf0332af1d8b28b6c074fbeb2aef9c1 · MLBazaar/Cardea (no date) GitHub. Available at: https://github.com/MLBazaar/Cardea (Accessed: 12 January 2023).
-healthcareai-py/base.py at cb82b94990fb3046edccb3740ae5653adce70940 · HealthCatalyst/healthcareai-py (no date) GitHub. Available at: https://github.com/HealthCatalyst/healthcareai-py (Accessed: 12 January 2023).
-PyHealth/usecase.rst at master · sunlabuiuc/PyHealth (no date) GitHub. Available at: https://github.com/sunlabuiuc/PyHealth (Accessed: 12 January 2023).
+Cardea/core.py at cdb79cb0bdf0332af1d8b28b6c074fbeb2aef9c1 · MLBazaar/Cardea (no date) GitHub. Available at: https://github.com/MLBazaar/Cardea (Accessed: 12 January 2023).   
+healthcareai-py/base.py at cb82b94990fb3046edccb3740ae5653adce70940 · HealthCatalyst/healthcareai-py (no date) GitHub. Available at: https://github.com/HealthCatalyst/healthcareai-py (Accessed: 12 January 2023).   
+PyHealth/usecase.rst at master · sunlabuiuc/PyHealth (no date) GitHub. Available at: https://github.com/sunlabuiuc/PyHealth (Accessed: 12 January 2023).   
