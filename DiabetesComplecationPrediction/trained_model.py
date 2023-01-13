@@ -16,15 +16,17 @@ with diabetes and the accuracy of the prediction.
 This function gives the information about whether the risk of developing Immunoglobulin A Nephropathy for
 patients with diabetes and the accuracy of the prediction.
 """
+
 from typing import List
 from DiabetesComplecationPrediction.datasets import *
 from DiabetesComplecationPrediction.error import *
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
 df_cvd = diabetes_cvd_risk()
 df_igan = diabetes_IgAN_risk()
@@ -41,8 +43,7 @@ class SVMModel():
     def __init__(self, 
                  dataset, 
                  features: List[str], 
-                 labels: str, 
-                 input_data):
+                 labels: str):
         """
         Create a support vector machine model.
 
@@ -50,28 +51,30 @@ class SVMModel():
             dataset (DataFrame): the dataset used to train and test the model
             features (list): the name of the features used to train the model and predict the result
             labels (string): the name of the column which contains the labels used for model training
+            
             input_data (list) : the information inputed by the patients
         """
         self.dataset = dataset
         self.features = features
         self.labels = labels
         self.X = self.dataset[self.features]
+        # self.X = np.array(dataset.loc[:,self.features])
         self.y = self.dataset[self.labels]
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 30)
-        self.input_data = input_data
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.30)
+        # self.input_data = input_data
 
-    def trained_model(self):
+    def trained_model(self, kernel='linear', probability=True):
         """
         Generate and train a SVM model.
 
         Returns:
             trained SVM classification model
         """
-        classifier = SVC()
+        classifier = SVC(kernel=kernel, probability=probability)
         classifier.fit(self.X_train, self.y_train)
         return classifier
 
-    def make_prediction(self, classifier):   
+    def make_prediction(self, classifier, input_data):   
         """
         Use the trained model to predict the whether this person has risk of diabetes.
 
@@ -81,7 +84,8 @@ class SVMModel():
         Returns:
             the prediction made by the classification model
         """   
-        return classifier.predict(self.input_data)
+        self.input_data = input_data
+        return classifier.predict(input_data)
 
     def model_accuracy(self):
         """
@@ -92,13 +96,42 @@ class SVMModel():
         """
         accuracy = accuracy_score(self.y_test, self.trained_model().predict(self.X_test))
         return accuracy * 100
+    
+    def roc(self):
+        """
+        Calculates the AUC score of the trained model.
+
+        Returns:
+            float: the AUC score of the model
+        """
+        clf = self.trained_model()
+        y_scores = clf.predict_proba(self.X_test)[:,1]
+        roc_score = roc_auc_score(self.y_test, y_scores)
+        return roc_score
+
+    def roc_plot(self):
+        """
+        Plots the ROC curve of the trained classification model using the test set.
+        The AUC score is included in the legend of the plot.
+        """
+        clf = self.trained_model()
+        y_scores = clf.predict_proba(self.X_test)[:,1]
+        roc_score = roc_auc_score(self.y_test, y_scores)
+        fpr, tpr, _ = roc_curve(self.y_test, y_scores)
+
+        # Plot ROC curve
+        plt.plot(fpr, tpr, label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.legend(loc='best')
+        plt.show()
+
 
 class RFModel():
     def __init__(self,
                  dataset,
                  features: List[str],
-                 labels: str,
-                 input_data):
+                 labels: str):
         """
         Create a support vector machine model.
 
@@ -111,10 +144,10 @@ class RFModel():
         self.dataset = dataset
         self.features = features
         self.labels = labels
-        self.input_data = input_data
+        # self.input_data = input_data
         self.X = self.dataset[self.features]
         self.y = self.dataset[self.labels]
-        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 30)
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.3)
 
     def trained_model(self):
         """
@@ -127,7 +160,7 @@ class RFModel():
         classifier.fit(self.X_train, self.y_train)
         return classifier
 
-    def make_prediction(self, classifier):
+    def make_prediction(self, classifier, input_data):
         """
         Use the trained model to predict the whether this person has risk of diabetes.
 
@@ -137,7 +170,7 @@ class RFModel():
         Returns:
             the prediction made by the classification model    
         """ 
-        return classifier.predict(self.input_data)
+        return classifier.predict(input_data)
 
     def model_accuracy(self):
         """
@@ -148,6 +181,35 @@ class RFModel():
         """
         accuracy = accuracy_score(self.y_test, self.trained_model().predict(self.X_test))
         return accuracy * 100
+
+    def roc(self):
+        """
+        Calculates the AUC score of the trained model.
+
+        Returns:
+            float: the AUC score of the model
+        """
+        clf = self.trained_model()
+        y_scores = clf.predict_proba(self.X_test)[:,1]
+        roc_score = roc_auc_score(self.y_test, y_scores)
+        return roc_score
+
+    def roc_plot(self):
+        """
+        Plots the ROC curve of the trained classification model using the test set.
+        The AUC score is included in the legend of the plot.
+        """
+        clf = self.trained_model()
+        y_scores = clf.predict_proba(self.X_test)[:,1]
+        roc_score = roc_auc_score(self.y_test, y_scores)
+        fpr, tpr, _ = roc_curve(self.y_test, y_scores)
+
+        # Plot ROC curve
+        plt.plot(fpr, tpr, label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.legend(loc='best')
+        plt.show()
         
 
 def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
@@ -165,13 +227,13 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
         a string that contains one sentence about the result for the prediction with the prediction accuracy
     """
     if model_type == 'SVM':
-        model = SVMModel(df_cvd, input.keys(), 'Cardiovacular Risk', input.values())
+        model = SVMModel(df_cvd, input.keys(), 'Cardiovacular Risk')
     elif model_type == 'Random Forest':
-        model = RFModel(df_cvd, input.keys(), 'Cardiovacular Risk', input.values())
+        model = RFModel(df_cvd, input.keys(), 'Cardiovacular Risk')
     else: 
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
     
-    prediction = model.make_prediction(model.trained_model())
+    prediction = model.make_prediction(model.trained_model(), input.values())
     if prediction == 1:
         print('It is likely to develop cardiovascular disease as a complication of diabetes.')
     else: 
@@ -190,19 +252,19 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
             key is the name of the features that the patient fills in
             value is the corresponding status of that feature
         model_type (string): the choice of model for prediction
-                             options are 'SVM' and 'Random Forest'
+            options are 'SVM' and 'Random Forest'
     Returns:
         a sentence that illustrate whether it is likely to have risk of getting IgAN according to the given
         information with the prediction accuracy
     """
     if model_type == 'SVM':
-        model = SVMModel(df_igan, input.keys(), 'Risk of Nephropathy', input.values())
+        model = SVMModel(df_igan, input.keys(), 'Risk of Nephropathy')
     elif model_type == 'Random Forest':
-        model = RFModel(df_igan, input.keys(), 'Risk of Nephropathy', input.values())
+        model = RFModel(df_igan, input.keys(), 'Risk of Nephropathy')
     else:
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
 
-    prediction = model.make_prediction(model.trained_model())
+    prediction = model.make_prediction(model.trained_model(), input.values())
     if prediction == 1:
         print('The risk of developing Nephropathy as complication of diabetes is high.')
     else:
