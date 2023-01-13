@@ -99,7 +99,7 @@ class SVMModel():
     
     def roc(self):
         """
-        Calculates the AUC score of the trained model.
+        Calculates the AUC score of the SVM model.
 
         Returns:
             float: the AUC score of the model
@@ -111,7 +111,7 @@ class SVMModel():
 
     def roc_plot(self):
         """
-        Plots the ROC curve of the trained classification model using the test set.
+        Plots the ROC curve of the SVM model.
         The AUC score is included in the legend of the plot.
         """
         clf = self.trained_model()
@@ -184,7 +184,7 @@ class RFModel():
 
     def roc(self):
         """
-        Calculates the AUC score of the trained model.
+        Calculates the AUC score of the random forest model.
 
         Returns:
             float: the AUC score of the model
@@ -196,7 +196,7 @@ class RFModel():
 
     def roc_plot(self):
         """
-        Plots the ROC curve of the trained classification model using the test set.
+        Plots the ROC curve of the random forest model.
         The AUC score is included in the legend of the plot.
         """
         clf = self.trained_model()
