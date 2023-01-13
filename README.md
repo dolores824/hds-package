@@ -1,11 +1,14 @@
 # DiabetesComplecationPrediction
+[Github repo](https://github.com/dolores824/hds-package)
 DiabetesComplecationPrediction is a package providing analysis framework for diabetes complecation predictions.
 ## Directory structure
+```
 📦DiabetesComplecationPrediction   
  ├─ 📂datasets   
  │ ├─ 📂data   
  │ │ ├─ 📜hw_Cardiovascular.csv   
  │ │ └─ 📜hw_Nephropathy.csv   
+ │ │ └─ 📜cvd_example.csv   
  │ ├─ 📜base.py   
  │ └─ 📜__init__.py   
  ├─ 📂preprocessing   
@@ -20,7 +23,7 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
  ├─ 📜setup.py    
  ├─ 📜trained_model.py    
  └─ 📜__init__.py    
-
+```
 ## Description and Features
 - Data loading
 - Data imputation
@@ -29,11 +32,8 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 ## Installation
 ### Using pip
 `pip install https://github.com/dolores824/hds-package`
-## Datasets
-| Dataset             | Module                                                         |
-| ------------------- | -------------------------------------------------------------- |
-| Cardiovascular risk | DiabetesComplecationPrediction.datasets.data.hw_Cardiovascular |
-| Nephropathy risk    | DiabetesComplecationPrediction.datasets.data.hw_Nephropathy    | 
+## Example usage showcase
+
 ## Functions
 ### Check missing value method
 ```python
@@ -63,9 +63,9 @@ from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_im
 | Name               | Description                                         |
 | ------------------ | --------------------------------------------------- |
 | normal_impute      | Simple imputer using mean, median and mode methods. |
-| interpolate_impute | Fills missing value using interpolation.            |
-| knn_impute         | Fills missing values with nearest neighbours.       |
-| rf_impute          | Fills missing values with random forest regressor.  |
+| interpolate_impute | Fill missing value using interpolation.            |
+| knn_impute         | Fill missing values with nearest neighbours.       |
+| rf_impute          | Fill missing values with random forest regressor.  |
 ### Correlation methods
 ```python
 from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap, most_correlated, view_correlations, most_related_heatmap
@@ -76,33 +76,50 @@ from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap
 | most_correlated      | Return the most correlated k features.                            |
 | view_correlations    | Return correlation matrix for selected columns in a DataFrame.    |
 | most_related_heatmap | Plot heatmap of most related columns based on correlation matrix. | 
-### Training methods
+### Model methods
 ```python
-from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, cvd_risk_prediction, IgAN_risk_prediction
+from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, CatBoostModel
 svm=SVMModel()
 rf=RFModel()
+cb=CatBoostModel()
 ```
-#### Model fitting
+#### SVM model
+| Name                | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| svm.trained_model   | Generate and trains a SVM model.                                        |
+| svm.make_prediction | Use SVM model to predict the whether this person has risk of interests. |
+| svm.model_accuracy  | Provide the accuracy of SVM model.                                      |
+| svm.roc             | Calculate the AUC score of the SVM model.                              |
+| svm.roc_plot        | Plots the ROC curve of the SVM model.                                   | 
+#### Random forest model
+| Name                | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| rf.trained_model   | Generate and trains a random forest model.                                        |
+| rf.make_prediction | Use random forest model to predict the whether this person has risk of interests. |
+| rf.model_accuracy  | Provide the accuracy of random forest model.                                      |
+| rf.roc             | Calculate the AUC score of the random forest model.                              |
+| rf.roc_plot        | Plot the ROC curve of the random forest model.                                   | 
+#### Catboost model
+| Name                | Description                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| cb.trained_model   | Generate and trains a catboost model.                                        |
+| cb.make_prediction | Use catboost model to predict the whether this person has risk of interests. |
+| cb.model_accuracy  | Provide the accuracy of catboost model.                                      |
+| cb.roc             | Calculates the AUC score of the catboost model.                              |
+| cb.roc_plot        | Plot the ROC curve of the catboost model.                                   | 
+## Example datasets
+| Dataset             | Module                                                         |
+| ------------------- | -------------------------------------------------------------- |
+| Cardiovascular risk | DiabetesComplecationPrediction.datasets.data.hw_Cardiovascular |
+| Nephropathy risk    | DiabetesComplecationPrediction.datasets.data.hw_Nephropathy    | 
+### Example dataset prediction
+```python
+from DiabetesComplecationPrediction.trained_model import cvd_risk_prediction, IgAN_risk_prediction
+```
 | Name                 | Description                                                                       |
 | -------------------- | --------------------------------------------------------------------------------- |
-| svm.trained_model    | Generate and trains a SVM model.                                                  |
-| rf.trained_model     | Generate and trains a random forest model.                                        |
-#### Prediction based on given infomation
-| Name                 | Description                                                                       |
-| -------------------- | --------------------------------------------------------------------------------- |
-| svm.make_prediction  | Use SVM model to predict the whether this person has risk of interests.           | 
-| rf.make_prediction   | Use random forest model to predict the whether this person has risk of interests. |
 | cvd_risk_prediction  | Predict the likelihood of cardiovascular disease from given information.          |
 | IgAN_risk_prediction | Predict the likelihood of Immunoglobulin A Nephropathy from given information.    |
-#### Model evaluation
-| Name               | Description                                          |
-| ------------------ | ---------------------------------------------------- |
-| svm.model_accuracy | Provide the accuracy of SVM model.                   |
-| svm.roc            | Calculates the AUC score of the SVM model.           |
-| svm.roc_plot       | Plots the ROC curve of the SVM model.                |
-| rf.model_accuracy  | Provide the accuracy of random forest model.         |
-| rf.roc             | Calculates the AUC score of the random forest model. |
-| rf.roc_plot        | Plots the ROC curve of the random forest model.      |
 ## References
 Cardea/core.py at cdb79cb0bdf0332af1d8b28b6c074fbeb2aef9c1 · MLBazaar/Cardea (no date) GitHub. Available at: https://github.com/MLBazaar/Cardea (Accessed: 12 January 2023).   
 healthcareai-py/base.py at cb82b94990fb3046edccb3740ae5653adce70940 · HealthCatalyst/healthcareai-py (no date) GitHub. Available at: https://github.com/HealthCatalyst/healthcareai-py (Accessed: 12 January 2023).   
