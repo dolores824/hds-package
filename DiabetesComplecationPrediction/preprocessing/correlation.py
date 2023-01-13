@@ -37,10 +37,16 @@ def cor_heatmap(df):
 
 class Feature():
 
-    def __init__(self,df,target_column,k=20):
+    def __init__(self, 
+                 df, 
+                 target_column, 
+                 k=20, 
+                 full=False):
+
         self.df = df
         self.target_column = target_column
         self.k = k
+        self.full = full
 
     def most_correlated(self):
         """Return the most correlated k features 
@@ -60,9 +66,14 @@ class Feature():
         return cols
 
     def feature_list(self):
-        feature_list = list(self.most_correlated())
-        feature_list.remove(self.target_column)
-        return feature_list
+        if self.full == False:
+            feature_list = list(self.most_correlated())
+            feature_list.remove(self.target_column)
+            return feature_list
+        else:
+            feature_list = list(self.df.columns)
+            feature_list.remove(self.target_column)
+            return feature_list
 
     def view_correlations(self):
         """Return correlation matrix for selected columns in a DataFrame
