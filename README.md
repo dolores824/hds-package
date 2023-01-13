@@ -25,6 +25,7 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 - Data loading
 - Data imputation
 - Feature correlation and heatmap plotting
+- Disease risk prediction
 ## Installation
 ### Using pip
 `pip install https://github.com/dolores824/hds-package`
@@ -75,6 +76,22 @@ from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap
 | most_correlated      | Return the most correlated k features.                            |
 | view_correlations    | Return correlation matrix for selected columns in a DataFrame.    |
 | most_related_heatmap | Plot heatmap of most related columns based on correlation matrix. | 
+### Prediction methods
+```python
+from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, cvd_risk_prediction, IgAN_risk_prediction
+svm=SVMModel()
+rf=RFModel()
+```
+| Name                 | Description                                                                       |
+| -------------------- | --------------------------------------------------------------------------------- |
+| svm.trained_model    | Generate and trains a SVM model.                                                  |
+| svm.make_prediction  | Use SVM model to predict the whether this person has risk of interests.           |
+| svm.model_accuracy   | Provide the accuracy of SVM model.                                                |
+| rf.trained_model     | Generate and trains a random forest model.                                        |
+| rf.make_prediction   | Use random forest model to predict the whether this person has risk of interests. |
+| rf.model_accuracy    | Provide the accuracy of random forest model.                                      |
+| cvd_risk_prediction  | Predict the likelihood of cardiovascular disease from given information.          | 
+| IgAN_risk_prediction | Predict the likelihood of Immunoglobulin A Nephropathy from given information.    |
 ## References
 Cardea/core.py at cdb79cb0bdf0332af1d8b28b6c074fbeb2aef9c1 · MLBazaar/Cardea (no date) GitHub. Available at: https://github.com/MLBazaar/Cardea (Accessed: 12 January 2023).   
 healthcareai-py/base.py at cb82b94990fb3046edccb3740ae5653adce70940 · HealthCatalyst/healthcareai-py (no date) GitHub. Available at: https://github.com/HealthCatalyst/healthcareai-py (Accessed: 12 January 2023).   
