@@ -18,6 +18,7 @@ patients with diabetes and the accuracy of the prediction.
 """
 from typing import List
 from DiabetesComplecationPrediction.datasets import *
+from DiabetesComplecationPrediction.error import *
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -156,6 +157,7 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
 
     Args:
         model_type (string): the choice of model for prediction
+                             options are 'SVM' and 'Random Forest'
         input (dictionary): new information given by the patient
             key is the name of the features that the patient fills in
             value is the status of the specific feature
@@ -166,8 +168,8 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
         model = SVMModel(df_cvd, input.keys(), 'Cardiovacular Risk', input.values())
     elif model_type == 'Random Forest':
         model = RFModel(df_cvd, input.keys(), 'Cardiovacular Risk', input.values())
-    else: # Raise an error message to say please choose the model type within the given choice
-        pass
+    else: 
+        raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
     
     prediction = model.make_prediction(model.trained_model())
     if prediction == 1:
@@ -188,6 +190,7 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
             key is the name of the features that the patient fills in
             value is the corresponding status of that feature
         model_type (string): the choice of model for prediction
+                             options are 'SVM' and 'Random Forest'
     Returns:
         a sentence that illustrate whether it is likely to have risk of getting IgAN according to the given
         information with the prediction accuracy
@@ -197,7 +200,7 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
     elif model_type == 'Random Forest':
         model = RFModel(df_igan, input.keys(), 'Risk of Nephropathy', input.values())
     else:
-        pass
+        raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
 
     prediction = model.make_prediction(model.trained_model())
     if prediction == 1:
