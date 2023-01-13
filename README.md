@@ -76,22 +76,33 @@ from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap
 | most_correlated      | Return the most correlated k features.                            |
 | view_correlations    | Return correlation matrix for selected columns in a DataFrame.    |
 | most_related_heatmap | Plot heatmap of most related columns based on correlation matrix. | 
-### Prediction methods
+### Training methods
 ```python
 from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, cvd_risk_prediction, IgAN_risk_prediction
 svm=SVMModel()
 rf=RFModel()
 ```
+#### Model fitting
 | Name                 | Description                                                                       |
 | -------------------- | --------------------------------------------------------------------------------- |
 | svm.trained_model    | Generate and trains a SVM model.                                                  |
-| svm.make_prediction  | Use SVM model to predict the whether this person has risk of interests.           |
-| svm.model_accuracy   | Provide the accuracy of SVM model.                                                |
 | rf.trained_model     | Generate and trains a random forest model.                                        |
+#### Prediction based on given infomation
+| Name                 | Description                                                                       |
+| -------------------- | --------------------------------------------------------------------------------- |
+| svm.make_prediction  | Use SVM model to predict the whether this person has risk of interests.           | 
 | rf.make_prediction   | Use random forest model to predict the whether this person has risk of interests. |
-| rf.model_accuracy    | Provide the accuracy of random forest model.                                      |
-| cvd_risk_prediction  | Predict the likelihood of cardiovascular disease from given information.          | 
+| cvd_risk_prediction  | Predict the likelihood of cardiovascular disease from given information.          |
 | IgAN_risk_prediction | Predict the likelihood of Immunoglobulin A Nephropathy from given information.    |
+#### Model evaluation
+| Name               | Description                                          |
+| ------------------ | ---------------------------------------------------- |
+| svm.model_accuracy | Provide the accuracy of SVM model.                   |
+| svm.roc            | Calculates the AUC score of the SVM model.           |
+| svm.roc_plot       | Plots the ROC curve of the SVM model.                |
+| rf.model_accuracy  | Provide the accuracy of random forest model.         |
+| rf.roc             | Calculates the AUC score of the random forest model. |
+| rf.roc_plot        | Plots the ROC curve of the random forest model.      |
 ## References
 Cardea/core.py at cdb79cb0bdf0332af1d8b28b6c074fbeb2aef9c1 · MLBazaar/Cardea (no date) GitHub. Available at: https://github.com/MLBazaar/Cardea (Accessed: 12 January 2023).   
 healthcareai-py/base.py at cb82b94990fb3046edccb3740ae5653adce70940 · HealthCatalyst/healthcareai-py (no date) GitHub. Available at: https://github.com/HealthCatalyst/healthcareai-py (Accessed: 12 January 2023).   
