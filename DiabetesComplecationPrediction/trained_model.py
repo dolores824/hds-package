@@ -4,9 +4,11 @@ for constructing classification models and making prediction.
 
 Classes:
 -SVMModel: 
-Create a trained support vector machine model that can make prediction and give the prediction accuracy.
+Create a trained support vector machine model that can make prediction and give the model evaluation.
 -RFModel:
-Create a random forest model that can make prediction and give th prediction accuracy.
+Create a random forest model that can make prediction and give the model evaluation.
+-CatBoostModel:
+Create a catboost model that can make prediction and give the model evaluation.
 
 Functions
 -cvd_risk_prediction
@@ -16,10 +18,8 @@ with diabetes and the accuracy of the prediction.
 This function gives the information about whether the risk of developing Immunoglobulin A Nephropathy for
 patients with diabetes and the accuracy of the prediction.
 """
-
+from catboost import CatBoostClassifier
 from typing import List
-from DiabetesComplecationPrediction.datasets import *
-from DiabetesComplecationPrediction.error import *
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
@@ -27,6 +27,9 @@ from sklearn.metrics import accuracy_score, roc_auc_score, roc_curve
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from DiabetesComplecationPrediction.datasets import *
+from DiabetesComplecationPrediction.error import *
+
 
 df_cvd = diabetes_cvd_risk()
 df_igan = diabetes_IgAN_risk()
@@ -58,7 +61,6 @@ class SVMModel():
         self.features = features
         self.labels = labels
         self.X = self.dataset[self.features]
-        # self.X = np.array(dataset.loc[:,self.features])
         self.y = self.dataset[self.labels]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.30)
         # self.input_data = input_data
@@ -102,7 +104,7 @@ class SVMModel():
         Calculates the AUC score of the SVM model.
 
         Returns:
-            float: the AUC score of the model
+            float: the AUC score of the SVM model
         """
         clf = self.trained_model()
         y_scores = clf.predict_proba(self.X_test)[:,1]
@@ -120,7 +122,10 @@ class SVMModel():
         fpr, tpr, _ = roc_curve(self.y_test, y_scores)
 
         # Plot ROC curve
-        plt.plot(fpr, tpr, label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.plot(fpr, tpr, 
+                color='darkorange',
+                label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.legend(loc='best')
@@ -162,7 +167,7 @@ class RFModel():
 
     def make_prediction(self, classifier, input_data):
         """
-        Use the trained model to predict the whether this person has risk of diabetes.
+        Use the trained model to predict the whether this person has risk of interests.
 
         Args:
             classifier: the trained model
@@ -205,7 +210,97 @@ class RFModel():
         fpr, tpr, _ = roc_curve(self.y_test, y_scores)
 
         # Plot ROC curve
-        plt.plot(fpr, tpr, label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.plot(fpr, tpr, 
+                color='darkorange',
+                label='ROC curve (area = {:.3f})'.format(roc_score))
+        plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.legend(loc='best')
+        plt.show()
+
+class CatBoostModel():
+    def __init__(self, df, features, target):
+        """
+        Fit a CatBoost classification model.
+
+        Args:
+            df (pandas.DataFrame): the df used to train and test the model
+            features (list): the name of the features used to train the model and predict the result
+            target (string): the name of the column which contains the labels used for model training
+
+        """
+        self.df = df
+        self.features = features
+        self.target = target
+        self.X = self.df[self.features]
+        self.y = self.df[self.target]
+        self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size=0.3)
+        
+    def trained_model(self):
+        """
+        Fit a CatBoost model
+
+        Returns:
+            trained CatBoost model
+        """
+        model = CatBoostClassifier()
+        model.fit(self.X_train, self.y_train)
+        return model
+
+    def predict(self, model, input_data):
+        """
+        Use the catboost model to predict whether this person has risk of interests.
+
+        Args:
+            model: the catboost model
+
+        Returns:
+            the prediction made by the classification model  
+        """
+        return model.predict(input_data)
+
+    def model_accuracy(self, model):
+        """
+        Provide the accuracy of catboost model.
+
+        Args:
+            model: the catboost model
+
+        Returns:
+            the accuracy of the model without the percentage notation
+        """
+        accuracy = accuracy_score(self.y_test, model.predict(self.X_test))
+        return accuracy * 100
+    
+    def roc(self, model):
+        """
+        Compute the AUC score for Catboost model
+
+        Args:
+            model: the catboost model
+
+        Returns:
+            float: AUC score 
+        """
+        y_scores = model.predict_proba(self.X_test)[:, 1]
+        roc_score = roc_auc_score(self.y_test, y_scores)
+        return roc_score
+
+    def roc_plot(self, model):
+        """
+        Plots the ROC curve of the SVM model.
+        The AUC score is included in the legend of the plot.
+
+        Args:
+            model: the catboost model
+        """
+        y_scores = model.predict_proba(self.X_test)[:, 1]
+        fpr, tpr, _ = roc_curve(self.y_test, y_scores)
+        plt.plot(fpr, tpr, 
+                color='darkorange',
+                label='ROC curve (area = {:.3f})'.format(self.roc(model)))        
+        plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
         plt.xlabel('False Positive Rate')
         plt.ylabel('True Positive Rate')
         plt.legend(loc='best')
