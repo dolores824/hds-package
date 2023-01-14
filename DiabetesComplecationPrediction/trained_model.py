@@ -252,17 +252,17 @@ class CatBoostModel():
         model.fit(self.X_train, self.y_train)
         return model
 
-    def make_prediction(self, model, input_data):
+    def make_prediction(self, classifier, input_data):
         """
         Use the catboost model to predict whether this person has risk of interests.
 
         Args:
-            model: the catboost model
+            classifier: the catboost model
 
         Returns:
             the prediction made by the classification model  
         """
-        return model.predict(input_data)
+        return classifier.predict(input_data)
 
     def model_accuracy(self):
         """
@@ -343,7 +343,7 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest', 'CatBoost']
     print('The accuracy of this prediction is {:.2f}%.'.format(model.model_accuracy()))
 
 
-def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
+def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest', 'CatBoost']):
     """
     This function gives the prediction of whether the given information shows the patient is likely to develop
     IgAN as complication of diabetes.

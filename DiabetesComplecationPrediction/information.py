@@ -51,5 +51,5 @@ def IgAN_checker_csv(input_dataset, classification_method = ['SVM', 'Random Fore
     elif classification_method == 'CatBoost':
         return IgAN_risk_prediction(info, 'CatBoost')
     else:
-        raise DiaCcsPredError('Please choose a valid model type: SVM, Random Forest CatBoost.')
+        raise DiaCcsPredError('Please choose a valid model type: SVM, Random Forest or CatBoost.')
 
