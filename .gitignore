@@ -1,4 +1,5 @@
 test.ipynb
+*.zip
 .vscode/
 test/
 catboost_info/
