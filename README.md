@@ -3,26 +3,29 @@
 DiabetesComplecationPrediction is a package providing analysis framework for diabetes complecation predictions.
 ## Directory structure
 ```
-📦DiabetesComplecationPrediction   
- ├─ 📂datasets   
- │ ├─ 📂data   
- │ │ ├─ 📜hw_Cardiovascular.csv   
- │ │ └─ 📜hw_Nephropathy.csv   
- │ │ └─ 📜cvd_example.csv   
- │ ├─ 📜base.py   
- │ └─ 📜__init__.py   
- ├─ 📂preprocessing   
- │ ├─ 📜correlation.py   
- │ ├─ 📜load.py   
- │ ├─ 📜missing.py   
- │ ├─ 📜skew.py   
- │ └─ 📜__init__.py   
- ├─ 📜error.py   
- ├─ 📜information.py    
- ├─ 📜requirements.txt   
- ├─ 📜setup.py    
- ├─ 📜trained_model.py    
- └─ 📜__init__.py    
+📦DiabetesComplecationPrediction
+ ┣━ 📂datasets
+ ┃ ┣━ 📂data
+ ┃ ┃ ┣━ 📜cvd_exm.csv
+ ┃ ┃ ┣━ 📜hw_Cardiovascular.csv
+ ┃ ┃ ┣━ 📜hw_Nephropathy.csv
+ ┃ ┃ ┗━ 📜igan_exm.csv
+ ┃ ┣━ 📜base.py
+ ┃ ┗━ 📜__init__.py
+ ┣━ 📂preprocessing
+ ┃ ┣━ 📜correlation.py
+ ┃ ┣━ 📜encode.py
+ ┃ ┣━ 📜load.py
+ ┃ ┣━ 📜missing.py
+ ┃ ┣━ 📜skew.py
+ ┃ ┗━ 📜__init__.py
+ ┣━ 📜error.py
+ ┣━ 📜information.py
+ ┣━ 📜requirements.txt
+ ┣━ 📜setup.py
+ ┣━ 📜trained_model.py
+ ┗━ 📜__init__.py
+
 ```
 ## Description and Features
 - Data loading
