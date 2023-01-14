@@ -3,18 +3,21 @@ This module contains a set of classes and functions
 for constructing classification models and making prediction.
 
 Classes:
--SVMModel: 
+- SVMModel: 
 Create a trained support vector machine model that can make prediction and give the model evaluation.
--RFModel:
+
+- RFModel:
 Create a random forest model that can make prediction and give the model evaluation.
+
 -CatBoostModel:
 Create a catboost model that can make prediction and give the model evaluation.
 
-Functions
--cvd_risk_prediction
+Functions:
+- cvd_risk_prediction
 This function gives the information about whether the risk of developing cardiovascular disease for patients
 with diabetes and the accuracy of the prediction.
--IgAN_risk_prediction
+
+- IgAN_risk_prediction
 This function gives the information about whether the risk of developing Immunoglobulin A Nephropathy for
 patients with diabetes and the accuracy of the prediction.
 """
@@ -105,7 +108,7 @@ class SVMModel():
     
     def roc(self):
         """
-        Calculates the AUC score of the SVM model.
+        Calculate the AUC score of the SVM model.
 
         Returns:
             float: the AUC score of the SVM model
@@ -117,7 +120,7 @@ class SVMModel():
 
     def roc_plot(self):
         """
-        Plots the ROC curve of the SVM model.
+        Plot the ROC curve of the SVM model.
         The AUC score is included in the legend of the plot.
         """
         clf = self.trained_model()
@@ -192,7 +195,7 @@ class RFModel():
 
     def roc(self):
         """
-        Calculates the AUC score of the random forest model.
+        Calculate the AUC score of the random forest model.
 
         Returns:
             float: the AUC score of the model
@@ -292,7 +295,7 @@ class CatBoostModel():
 
     def roc_plot(self, model):
         """
-        Plots the ROC curve of the SVM model.
+        Plot the ROC curve of the SVM model.
         The AUC score is included in the legend of the plot.
 
         Args:
@@ -321,6 +324,7 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
         input (dictionary): new information given by the patient
             key is the name of the features that the patient fills in
             value is the status of the specific feature
+
     Returns:
         a string that contains one sentence about the result for the prediction with the prediction accuracy
     """
@@ -353,6 +357,7 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
             value is the corresponding status of that feature
         model_type (string): the choice of model for prediction
             options are 'SVM' and 'Random Forest'
+            
     Returns:
         a sentence that illustrate whether it is likely to have risk of getting IgAN according to the given
         information with the prediction accuracy
