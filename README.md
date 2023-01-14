@@ -1,5 +1,5 @@
 # DiabetesComplecationPrediction
-[Github repo](https://github.com/dolores824/hds-package)
+[Github repo](https://github.com/dolores824/hds-package)   
 DiabetesComplecationPrediction is a package providing analysis framework for diabetes complecation predictions.
 ## Directory structure
 ```
@@ -27,13 +27,15 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 ## Description and Features
 - Data loading
 - Data imputation
-- Feature correlation and heatmap plotting
+- Feature selection and heatmap plotting
+- Model generation and evaluation
 - Disease risk prediction
 ## Installation
 ### Using pip
 `pip install https://github.com/dolores824/hds-package`
 ## Example usage showcase
-
+[Predict the cardiovascular disease risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_cvd.ipynb)
+[Predict the Immunoglobulin A Nephropathy risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_igan.ipynb)
 ## Functions
 ### Check missing value method
 ```python
