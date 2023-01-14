@@ -1,18 +1,13 @@
 """
 This module provides functions to visualize and extract correlation information from DataFrames.
 
-Functions:
+Function:
 - cor_heatmap(df): 
 Plot a heatmap of correlation matrix of a DataFrame.
 
-- most_correlated(df, target_column, k=20): 
-Return the most correlated k features with a target column in DataFrame.
-
-- view_correlations(df, columns): 
-Return correlation matrix for selected columns in a DataFrame.
-    
-- most_related_heatmap(correlations, most_related_columns): 
-Plot heatmap of most related columns based on correlation matrix.
+Class:
+- Feature
+A class for selecting features in a dataset and visualizing their correlations.
 """
 
 import pandas as pd
@@ -36,6 +31,16 @@ def cor_heatmap(df):
     sns.heatmap(corrmat,cmap='RdBu',vmin=-0.6,vmax=0.6)
 
 class Feature():
+    """
+    A class for selecting features in a dataset and visualizing their correlations.
+
+    Args:
+        df (pandas.DataFrame): DataFrame to extract features from.
+        target_column (str): Name of the target column used for correlation calculations.
+        k (int): Number of most correlated features to return. Default is 20.
+        full (bool): If True, all features will be returned (except the target column). 
+                     Default is False.
+    """
 
     def __init__(self, 
                  df, 
@@ -66,6 +71,12 @@ class Feature():
         return cols
 
     def feature_list(self):
+        """Return a list of features to be used in the model, 
+        either the most correlated features or all features in the dataframe 
+
+        Returns:
+            feature_list (list): list of features
+        """
         if self.full == False:
             feature_list = list(self.most_correlated())
             feature_list.remove(self.target_column)

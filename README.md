@@ -68,14 +68,16 @@ from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_im
 | rf_impute          | Fill missing values with random forest regressor.  |
 ### Correlation methods
 ```python
-from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap, most_correlated, view_correlations, most_related_heatmap
+from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap, Feature
+feature = Feature()
 ```
-| Name                 | Description                                                       |
-| -------------------- | ----------------------------------------------------------------- |
-| cor_heatmap          | Plot a heatmap of correlation matrix of a DataFrame.              |
-| most_correlated      | Return the most correlated k features.                            |
-| view_correlations    | Return correlation matrix for selected columns in a DataFrame.    |
-| most_related_heatmap | Plot heatmap of most related columns based on correlation matrix. | 
+| Name                         | Description                                                                         |
+| ---------------------------- | ----------------------------------------------------------------------------------- |
+| cor_heatmap                  | Plot a heatmap of correlation matrix of a DataFrame.                                |
+| feature.most_correlated      | Return the most correlated k features.                                              |
+| feature.feature_list         | Return either the most correlated features or all features to be used in the model. | 
+| feature.view_correlations    | Return correlation matrix for selected columns in a DataFrame.                      |
+| feature.most_related_heatmap | Plot heatmap of most related columns based on correlation matrix.                   |
 ### Model methods
 ```python
 from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, CatBoostModel
