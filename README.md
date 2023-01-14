@@ -1,5 +1,6 @@
 # DiabetesComplecationPrediction
 [Github repo](https://github.com/dolores824/hds-package)   
+   
 DiabetesComplecationPrediction is designed to predict the risk of diabetes complications, specifically cardiovascular disease and Nephropathy. It utilizes machine learning models, such as support vector machine, random forest and catboost, to analyze patient data and make predictions.    
 This package is essential for medical practitioners as it allows them to identify high-risk patients and take preventative measures to reduce the likelihood of complications. Additionally, it helps medical facilities to make data-driven decisions, which can lead to better outcomes for patients and more efficient use of resources.
 ## Directory structure
