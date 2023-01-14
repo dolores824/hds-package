@@ -1,7 +1,5 @@
 test.ipynb
 *.pyc 
-*.json
-*.tsv
-*.tfevents
 .vscode/
 test/
+catboost_info/

@@ -33,6 +33,11 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 ## Installation
 ### Using pip
 `pip install https://github.com/dolores824/hds-package`
+### Intall dependencies
+#### Using pip
+`pip install -r requirements.txt`
+#### Using conda
+`conda install -r requirements.txt`
 ## Example usage showcase
 [Predict the cardiovascular disease risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_cvd.ipynb)   
 [Predict the Immunoglobulin A Nephropathy risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_igan.ipynb)
@@ -48,7 +53,7 @@ del_feature = Del_Feature()
 | drop_na.check_na              | Check if the DataFrame contains any NaN.                                   |
 | del_feature.missing_rate      | Compute the missing rate of each feature in a pandas DataFrame.            |
 | del_feature.missing_rate_hist | Plot the histogram of missing rate for each feature in a pandas DataFrame. | 
-### Deletion methods
+### Deletion method
 ```python
 from DiabetesComplecationPrediction.preprocessing.missing import DropNaN, Del_Feature
 drop_na = DropNaN()
@@ -58,7 +63,7 @@ del_feature = Del_Feature()
 | ----------------------- | ------------------------------------------------------------------------ |
 | drop_na.transfrom       | Remove rows containing NaN or None value.                                |
 | del_feature.del_feature | Delete the feature whose missing rate is greater than the provided rate. | 
-### Imputation methods
+### Imputation method
 ```python
 from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_impute, interpolate_impute, knn_impute, rf_impute
 ```
@@ -68,7 +73,14 @@ from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_im
 | interpolate_impute | Fill missing value using interpolation.            |
 | knn_impute         | Fill missing values with nearest neighbours.       |
 | rf_impute          | Fill missing values with random forest regressor.  |
-### Correlation methods
+### Encode method
+```python
+from Diabetes.preprocessing.encode import encode_categ
+```
+| Name         | Description                                  |
+| ------------ | -------------------------------------------- |
+| encode_categ | Encodes a categorical column in a DataFrame. | 
+### Correlation method
 ```python
 from DiabetesComplecationPrediction.preprocessing.correlation import cor_heatmap, Feature
 feature = Feature()
@@ -80,7 +92,7 @@ feature = Feature()
 | feature.feature_list         | Return either the most correlated features or all features to be used in the model. | 
 | feature.view_correlations    | Return correlation matrix for selected columns in a DataFrame.                      |
 | feature.most_related_heatmap | Plot heatmap of most related columns based on correlation matrix.                   |
-### Model methods
+### Model method
 ```python
 from DiabetesComplecationPrediction.trained_model import SVMModel, RFModel, CatBoostModel
 svm=SVMModel()
