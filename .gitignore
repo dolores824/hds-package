@@ -1,5 +1,5 @@
 test.ipynb
-*.pyc 
 .vscode/
 test/
 catboost_info/
+**/__pycache__/
