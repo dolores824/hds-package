@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 from DiabetesComplecationPrediction.datasets import *
 from DiabetesComplecationPrediction.error import *
 from DiabetesComplecationPrediction.preprocessing.missing import normal_impute, Del_Feature
+from DiabetesComplecationPrediction.preprocessing.encode import encode_categ
 
 del_feature = Del_Feature()
 
@@ -39,6 +40,7 @@ df_igan = diabetes_IgAN_risk()
 igan_missing = del_feature.missing_rate(df_igan)
 df_CVD = normal_impute(df_cvd)
 df_IgAN = normal_impute(del_feature.del_feature(df_igan, igan_missing))
+df_IgAN = encode_categ(df_IgAN, 'Risk of Nephropathy')
 
 class SVMModel():
 
