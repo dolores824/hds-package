@@ -25,7 +25,7 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
  ┣━ 📜trained_model.py
  ┗━ 📜__init__.py
 ```
-## Description and Features
+## Features
 - Data loading
 - Data imputation
 - Feature selection and heatmap plotting
