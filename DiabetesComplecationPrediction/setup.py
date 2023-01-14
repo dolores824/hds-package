@@ -1,20 +1,19 @@
-# Import required functions
 from setuptools import setup, find_packages
+from DiabetesComplecationPrediction import __version__
 
-# Call setup function
+with open("requirements.txt") as f:
+    requirements = []
+    for library in f.read().splitlines():
+        requirements.append(library)
+
 setup(
     author="Caiwei Tan, Ni Yang",
     description="A package that builds prediction models for diabetes complecations",
     name="<DiabetesComplecationPrediction>",
+    license="The MIT License (MIT)",
+    url="https://github.com/dolores824/hds-package",
     packages=find_packages(include=["<DiabetesComplecationPrediction>", "<DiabetesComplecationPrediction>.*"]),
-    
-    #install_requires=[
-    #    'pandas',            # any versions of pandas
-    #    'matplotlib>=2.2.1'
-    #],
-    #python_requires='>=3.0',
-    
-    version="0.1.5",
+    install_requires=requirements,
+    python_requires='>=3.9',
+    version=__version__,
 )
-# Run this to install the package locally in editable mode
-# pip install -e .
