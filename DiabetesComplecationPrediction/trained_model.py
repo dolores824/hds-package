@@ -87,7 +87,7 @@ class SVMModel():
             the prediction made by the classification model
         """   
         self.input_data = input_data
-        return classifier.predict(input_data)
+        return classifier.predict(self.input_data)
 
     def model_accuracy(self):
         """
@@ -149,7 +149,6 @@ class RFModel():
         self.dataset = dataset
         self.features = features
         self.labels = labels
-        # self.input_data = input_data
         self.X = self.dataset[self.features]
         self.y = self.dataset[self.labels]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.3)
@@ -321,20 +320,22 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
     Returns:
         a string that contains one sentence about the result for the prediction with the prediction accuracy
     """
+    features_list = list(input.keys())
     if model_type == 'SVM':
-        model = SVMModel(df_cvd, input.keys(), 'Cardiovacular Risk')
+        model = SVMModel(dataset = df_cvd, features = features_list, labels = 'Cardiovascular Risk')
     elif model_type == 'Random Forest':
-        model = RFModel(df_cvd, input.keys(), 'Cardiovacular Risk')
+        model = RFModel(dataset = df_cvd, features = features_list, labels = 'Cardiovascular Risk')
     else: 
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
     
-    prediction = model.make_prediction(model.trained_model(), input.values())
+    input_list = [list(input.values())]
+    prediction = model.make_prediction(model.trained_model(), input_list)
     if prediction == 1:
         print('It is likely to develop cardiovascular disease as a complication of diabetes.')
     else: 
         print('It is not likely to develop cadiovascular disease as a complication of diabetes.')
 
-    print(f'The accuracy of this prediction is {model.model_accuracy()}%.')
+    print('The accuracy of this prediction is {:.2f}%.'.format(model.model_accuracy()))
 
 
 def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
@@ -359,10 +360,11 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
     else:
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
 
-    prediction = model.make_prediction(model.trained_model(), input.values())
+    input_list = [list(input.values())]
+    prediction = model.make_prediction(model.trained_model(), input_list)
     if prediction == 1:
         print('The risk of developing Nephropathy as complication of diabetes is high.')
     else:
         print('The risk of developing Nephropathy as complication of diabetes is low.')
 
-    print(f'The accuracy of this prediction is {model.model_accuracy()}%.')
+    print('The accuracy of this prediction is {:.2f}%.'.format(model.model_accuracy()))
