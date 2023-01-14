@@ -30,6 +30,7 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 - Data imputation
 - Feature selection and heatmap plotting
 - Model generation and evaluation
+- Model comparison
 - Disease risk prediction
 ## Installation
 ### Using pip
