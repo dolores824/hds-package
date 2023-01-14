@@ -42,6 +42,7 @@ df_igan = diabetes_IgAN_risk()
 
 igan_missing = del_feature.missing_rate(df_igan)
 df_CVD = normal_impute(df_cvd)
+df_CVD = encode_categ(df_CVD, 'Cardiovascular Risk')
 df_IgAN = normal_impute(del_feature.del_feature(df_igan, igan_missing))
 df_IgAN = encode_categ(df_IgAN, 'Risk of Nephropathy')
 
@@ -62,8 +63,6 @@ class SVMModel():
             dataset (DataFrame): the dataset used to train and test the model
             features (list): the name of the features used to train the model and predict the result
             labels (string): the name of the column which contains the labels used for model training
-            
-            input_data (list) : the information inputed by the patients
         """
         self.dataset = dataset
         self.features = features
@@ -151,7 +150,6 @@ class RFModel():
             dataset (DataFrame): the dataset used to train and test the model
             features (list): the name of the features used to train the model and predict the result
             labels (string): the name of the column which contains the labels used for model training
-            input_data (list) : the information inputed by the patients
         """
         self.dataset = dataset
         self.features = features
@@ -254,7 +252,7 @@ class CatBoostModel():
         model.fit(self.X_train, self.y_train)
         return model
 
-    def predict(self, model, input_data):
+    def make_prediction(self, model, input_data):
         """
         Use the catboost model to predict whether this person has risk of interests.
 
@@ -266,17 +264,14 @@ class CatBoostModel():
         """
         return model.predict(input_data)
 
-    def model_accuracy(self, model):
+    def model_accuracy(self):
         """
         Provide the accuracy of catboost model.
-
-        Args:
-            model: the catboost model
 
         Returns:
             the accuracy of the model without the percentage notation
         """
-        accuracy = accuracy_score(self.y_test, model.predict(self.X_test))
+        accuracy = accuracy_score(self.y_test, self.trained_model().predict(self.X_test))
         return accuracy * 100
     
     def roc(self, model):
@@ -313,14 +308,14 @@ class CatBoostModel():
         plt.show()
         
 
-def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
+def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest', 'CatBoost']):
     """
     This function gives the prediction of whether the given information shows the patient is likely to 
     develop cardiovascular disease.
 
     Args:
         model_type (string): the choice of model for prediction
-                             options are 'SVM' and 'Random Forest'
+                             options are 'SVM', 'Random Forest' and 'CatBoost'
         input (dictionary): new information given by the patient
             key is the name of the features that the patient fills in
             value is the status of the specific feature
@@ -330,18 +325,20 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
     """
     features_list = list(input.keys())
     if model_type == 'SVM':
-        model = SVMModel(dataset = df_CVD, features = features_list, labels = 'Cardiovascular Risk')
+        model = SVMModel(df_CVD, features_list, 'Cardiovascular Risk')
     elif model_type == 'Random Forest':
-        model = RFModel(dataset = df_CVD, features = features_list, labels = 'Cardiovascular Risk')
+        model = RFModel(df_CVD, features_list, 'Cardiovascular Risk')
+    elif model_type == 'CatBoost':
+        model = CatBoostModel(df_CVD, features_list, 'Cardiovascular Risk')
     else: 
-        raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
+        raise DiaCcsPredError('Please choose a valid model type: "SVM", "Random Forest" or "CatBoost".')
     
     input_list = [list(input.values())]
     prediction = model.make_prediction(model.trained_model(), input_list)
     if prediction == 1:
-        print('It is likely to develop cardiovascular disease as a complication of diabetes.')
+        print('The risk of developing cardiovascular disease as complication of diabetes is high.')
     else: 
-        print('It is not likely to develop cadiovascular disease as a complication of diabetes.')
+        print('The risk of developing cardiovascular disease as complication of diabetes is low.')
 
     print('The accuracy of this prediction is {:.2f}%.'.format(model.model_accuracy()))
 
@@ -356,8 +353,7 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
             key is the name of the features that the patient fills in
             value is the corresponding status of that feature
         model_type (string): the choice of model for prediction
-            options are 'SVM' and 'Random Forest'
-            
+            options are 'SVM' and 'Random Forest' and 'CatBoost'
     Returns:
         a sentence that illustrate whether it is likely to have risk of getting IgAN according to the given
         information with the prediction accuracy
@@ -367,8 +363,10 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
         model = SVMModel(df_IgAN, feature_list, 'Risk of Nephropathy')
     elif model_type == 'Random Forest':
         model = RFModel(df_IgAN, feature_list, 'Risk of Nephropathy')
+    elif model_type == 'CatBoost':
+        model = CatBoostModel(df_IgAN, feature_list, 'Risk of Nephropathy')
     else:
-        raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
+        raise DiaCcsPredError('Please choose a valid model type: "SVM", "Random Forest" or "CatBoost".')
 
     input_list = [list(input.values())]
     prediction = model.make_prediction(model.trained_model(), input_list)
