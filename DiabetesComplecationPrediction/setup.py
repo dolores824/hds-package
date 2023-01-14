@@ -13,6 +13,7 @@ setup(
     license="The MIT License (MIT)",
     url="https://github.com/dolores824/hds-package",
     packages=find_packages(include=["<DiabetesComplecationPrediction>", "<DiabetesComplecationPrediction>.*"]),
+    include_package_data=True,
     install_requires=requirements,
     python_requires='>=3.9',
     version=__version__,
