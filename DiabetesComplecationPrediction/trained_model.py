@@ -29,10 +29,16 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from DiabetesComplecationPrediction.datasets import *
 from DiabetesComplecationPrediction.error import *
+from DiabetesComplecationPrediction.preprocessing.missing import normal_impute, Del_Feature
 
+del_feature = Del_Feature()
 
 df_cvd = diabetes_cvd_risk()
 df_igan = diabetes_IgAN_risk()
+
+igan_missing = del_feature.missing_rate(df_igan)
+df_CVD = normal_impute(df_cvd)
+df_IgAN = normal_impute(del_feature.del_feature(df_igan, igan_missing))
 
 class SVMModel():
 
@@ -63,7 +69,6 @@ class SVMModel():
         self.X = self.dataset[self.features]
         self.y = self.dataset[self.labels]
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(self.X, self.y, test_size = 0.30)
-        # self.input_data = input_data
 
     def trained_model(self, kernel='linear', probability=True):
         """
@@ -322,9 +327,9 @@ def cvd_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
     """
     features_list = list(input.keys())
     if model_type == 'SVM':
-        model = SVMModel(dataset = df_cvd, features = features_list, labels = 'Cardiovascular Risk')
+        model = SVMModel(dataset = df_CVD, features = features_list, labels = 'Cardiovascular Risk')
     elif model_type == 'Random Forest':
-        model = RFModel(dataset = df_cvd, features = features_list, labels = 'Cardiovascular Risk')
+        model = RFModel(dataset = df_CVD, features = features_list, labels = 'Cardiovascular Risk')
     else: 
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
     
@@ -353,10 +358,11 @@ def IgAN_risk_prediction(input, model_type = ['SVM', 'Random Forest']):
         a sentence that illustrate whether it is likely to have risk of getting IgAN according to the given
         information with the prediction accuracy
     """
+    feature_list = list(input.keys())
     if model_type == 'SVM':
-        model = SVMModel(df_igan, input.keys(), 'Risk of Nephropathy')
+        model = SVMModel(df_IgAN, feature_list, 'Risk of Nephropathy')
     elif model_type == 'Random Forest':
-        model = RFModel(df_igan, input.keys(), 'Risk of Nephropathy')
+        model = RFModel(df_IgAN, feature_list, 'Risk of Nephropathy')
     else:
         raise DiaCcsPredError('Please choose a valid model type: "SVM" or "Random Forest".')
 
