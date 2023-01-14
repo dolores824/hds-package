@@ -2,7 +2,7 @@
 This module contains a set of classes and functions
 that help preprocess and clean a dataset by dealing with missing values.
 
-Functions:
+Classes:
 - DataFrameDropNaN:
 It can be used to remove rows that contain NaN or None value.
 
@@ -10,6 +10,7 @@ It can be used to remove rows that contain NaN or None value.
 It can be used to delete the feature whose missing rate is greater than the provided rate. 
 It includes methods for computing the missing rate, visualizing it, and delete feature based on missing rate.
 
+Functions:
 - normal_impute(df,col_name=None,imputation='mean'):
 It fills in missing values with mean, median or mode. 
 
@@ -164,8 +165,6 @@ def interpolate_impute(df,col_name):
     else:
         raise DiaCcsPredError('Please check the column name.')
 
-# source
-# https://zhuanlan.zhihu.com/p/268521157
 def knn_impute(df,k=5):
     """Replaces missing values in a pandas DataFrame with values estimated by k-Nearest Neighbors (KNN) imputation.
 
@@ -183,8 +182,6 @@ def knn_impute(df,k=5):
     imputation=knn_imt.fit_transform(df)
     return pd.DataFrame(imputation, columns=df.columns)
 
-# source
-# https://zhuanlan.zhihu.com/p/115103738
 def rf_impute(df,na_col):
     """Replaces missing values in a pandas DataFrame with estimated by a random forest regressor.
 

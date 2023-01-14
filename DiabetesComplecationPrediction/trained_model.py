@@ -44,9 +44,6 @@ class SVMModel():
 
     """
     Create a class of support vector machine models.
-
-    The object in this class contains:
-    -
     """
 
     def __init__(self, 
