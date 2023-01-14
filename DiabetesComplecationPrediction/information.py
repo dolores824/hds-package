@@ -1,5 +1,12 @@
 """
 This module contains some functions to collect the input information and illustrate the results of prediction.
+
+Functions:
+- cvd_checker_csv
+Take as input a DataFrame and a model choice, and returns a likelihood prediction of developing cardiovascular disease (CVD).
+
+- IgAN_checker_csv
+Take as input a DataFrame and a model choice, and returns a likelihood prediction of developing Immunoglobulin A Nephropathy (IgAN).
 """
 from DiabetesComplecationPrediction.trained_model import cvd_risk_prediction, IgAN_risk_prediction
 from DiabetesComplecationPrediction.error import *
@@ -13,7 +20,7 @@ def cvd_checker_csv(input_dataset, classification_method = ['SVM', 'Random Fores
         classification_method (string): the name of the classification method (SVM, random forest or catboost)
 
     Returns:
-        Two sentences that illustrate the prediction of the cvd risk result and accuracy
+        A brief description of cvd risk and accuracy
     """
     info = input_dataset.to_dict('index')['Values']
     if classification_method == 'SVM':
@@ -34,7 +41,7 @@ def IgAN_checker_csv(input_dataset, classification_method = ['SVM', 'Random Fore
         classification_method (string): the name of the classification method (SVM, random forest or catboost)
 
     Returns:
-        Two sentences that illustrate the prediction of the IgAN risk result and accuracy
+        A brief description of Igan risk and accuracy
     """
     info = input_dataset.to_dict('index')['Values']
     if classification_method == 'SVM':
