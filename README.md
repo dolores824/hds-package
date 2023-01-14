@@ -77,6 +77,14 @@ from DiabetesComplecationPrediction.preprocessing.missing import normalnormal_im
 | interpolate_impute | Fill missing value using interpolation.            |
 | knn_impute         | Fill missing values with nearest neighbours.       |
 | rf_impute          | Fill missing values with random forest regressor.  |
+### Normalization method
+```python
+from DiabetesComplecationPrediction.preprocessing.skew import skewness, box_cox
+```
+| Name     | Description                                                   |
+| -------- | ------------------------------------------------------------- |
+| skewness | Calculate the skewness of each feature in a pandas DataFrame. |
+| box_cox  | Fix skewed data using boxcox method.                          | 
 ### Encode method
 ```python
 from Diabetes.preprocessing.encode import encode_categ
