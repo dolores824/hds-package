@@ -1,4 +1,4 @@
-![outline](https://raw.githubusercontent.com/dolores824/hds-package/1bc13cbd1185c8b0c0a19d2d429c0b1f94f2c554/outline.svg)
+![outline](https://raw.githubusercontent.com/dolores824/hds-package/35074130af342769ee8ea0c7e4b3c10f4b14901f/outline.svg)
 # DiabetesComplecationPrediction
 [Github repo](https://github.com/dolores824/hds-package)   
    
