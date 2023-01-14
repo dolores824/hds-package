@@ -34,7 +34,7 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
 ### Using pip
 `pip install https://github.com/dolores824/hds-package`
 ## Example usage showcase
-[Predict the cardiovascular disease risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_cvd.ipynb)
+[Predict the cardiovascular disease risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_cvd.ipynb)   
 [Predict the Immunoglobulin A Nephropathy risk for diabetes patients](https://github.com/dolores824/hds-package/blob/master/example_usage_igan.ipynb)
 ## Functions
 ### Check missing value method
