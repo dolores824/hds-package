@@ -21,11 +21,9 @@ DiabetesComplecationPrediction is a package providing analysis framework for dia
  ┃ ┗━ 📜__init__.py
  ┣━ 📜error.py
  ┣━ 📜information.py
- ┣━ 📜requirements.txt
  ┣━ 📜setup.py
  ┣━ 📜trained_model.py
  ┗━ 📜__init__.py
-
 ```
 ## Description and Features
 - Data loading
